@@ -5,6 +5,7 @@
 #include "RLS.h"
 #include "arm_math.h"
 #include "USER_B2B.h"
+#include "PowerCtrl.h"
 
 ChassisMotor_t chassis = {0}; //所有底盘电机结构体 包括四个轮电机
 
@@ -55,9 +56,8 @@ void Task_CANMotors_Callback()
 		{
 			PID_SingleCalc(&chassis.M3508[i].speedPID,chassis.M3508[i].targetSpeed,chassis.M3508[i].speed);
 		}
-		// PowerCtrl();
+		PowerCtrl();
 	    USER_CAN_SetMotorCurrent(&hfdcan1, 0x200, chassis.M3508[0].speedPID.output,chassis.M3508[1].speedPID.output,chassis.M3508[2].speedPID.output,chassis.M3508[3].speedPID.output);
-//		measure_power = cap.receive_data.bus_power*0.01;
 } 
 
 
@@ -67,8 +67,7 @@ void OS_MotorCallback(void const * argument)
 {
 	osDelay(1500);
 	Chassis_InitPID();
-	// PowerCtralInit();
-	// PowerControl_AutoUpdateParamInit();
+	PowerCtralInit();
     for(;;)
     {	
 		if(rs485_isvalid){
