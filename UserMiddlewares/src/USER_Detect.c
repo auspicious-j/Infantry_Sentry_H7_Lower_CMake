@@ -60,7 +60,7 @@ void Detect_InitAll()
 {
 	Detect_InitDevice(DeviceID_ChassisMotor1, 100, NULL, NULL);
 	Detect_InitDevice(DeviceID_ChassisMotor2, 100, NULL, NULL);
-	Detect_InitDevice(DeviceID_ChassisMotor3,100, NULL, NULL);
+	Detect_InitDevice(DeviceID_ChassisMotor3, 100, NULL, NULL);
 	Detect_InitDevice(DeviceID_ChassisMotor4, 100, NULL, NULL);
 
 	Detect_InitDevice(DeviceID_YawMotor, 100, NULL, NULL);
@@ -115,7 +115,7 @@ uint8_t Detect_IsDeviceLost(uint8_t deviceID)
 
 void OS_DetectCallback(void const *argument)
 {
-	osDelay(2000);
+	osDelay(1000);
 	for (;;)
 	{
 		Task_Detect_Callback();

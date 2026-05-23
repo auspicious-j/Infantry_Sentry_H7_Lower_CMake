@@ -7,6 +7,7 @@
 #include "USER_Detcet.h"
 #include "imu_temp_ctrl.h"
 #include <string.h>
+#include "PowerCtrl.h"
 
 
 extern DMA_HandleTypeDef hdma_usart2_rx;
@@ -42,8 +43,14 @@ void B2B_ParseUsart() // 先发低字节
 		{
 				chassis.M3508[i].targetSpeed = (int16_t)usart2RxBuf[1 + i * 2] | (int16_t)usart2RxBuf[1 + i * 2 + 1] << 8;
 		} //轮电机目标速度	1-8
-		
+		move.maxVx = (int16_t)((uint16_t)usart2RxBuf[9] |((uint16_t)usart2RxBuf[10] << 8)) / 1000.0f;
+		move.maxVy = (int16_t)((uint16_t)usart2RxBuf[11] |((uint16_t)usart2RxBuf[12] << 8)) / 1000.0f;
+		move.xSlope.value = (int16_t)((uint16_t)usart2RxBuf[13] |((uint16_t)usart2RxBuf[14] << 8)) / 1000.0f;
+		move.ySlope.value = (int16_t)((uint16_t)usart2RxBuf[15] |((uint16_t)usart2RxBuf[16] << 8)) / 1000.0f;
+		move.fastMode = usart2RxBuf[18]; //快速模式 0-普通模式 1-快速模式
 		STOPFLAG = usart2RxBuf[62];
+
+
 		
 		/* 发送    */
 		txbuffer[0] = 0xAB;
@@ -53,8 +60,18 @@ void B2B_ParseUsart() // 先发低字节
 				txbuffer[1 + i * 2] = chassis.M3508[i].speed;
 				txbuffer[1 + i * 2 + 1] = chassis.M3508[i].speed >> 8;
 		} // 1-8 轮电机当前速度
+		txbuffer[9] = SET_WHEELSPEED_MAX;
+		txbuffer[10] = SET_WHEELSPEED_MAX >> 8; //9-10 轮电机速度上限
 
-		memcpy(&txbuffer[9], &USER_JudgeData, sizeof(JudgeData_t)); //9-36 裁判系统数据
+		{
+			float v = whell_power.InputPower;
+			uint8_t *p = (uint8_t *)&v;
+			txbuffer[11] = p[0];
+			txbuffer[12] = p[1];
+			txbuffer[13] = p[2];
+			txbuffer[14] = p[3];
+		}//11-14 舵电机当前角度（单圈）单位为°
+		memcpy(&txbuffer[15], &USER_JudgeData, sizeof(JudgeData_t)); //15-43 裁判系统数据
 		
 		txbuffer[62] = FEEDBACK;
 		txbuffer[B2B_FRAME_LEN - 1U] = 0xFD;	

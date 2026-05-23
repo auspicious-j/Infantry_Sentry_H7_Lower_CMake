@@ -95,5 +95,6 @@ void USER_CAN_SetMotorCurrent(FDCAN_HandleTypeDef* hfdcan,int16_t StdId,int16_t 
 void Motor_StartCalcAngle_J4310(DM_motor_t *motor);
 void Motor_CalcAngle_J4310(DM_motor_t *motor);
 void clear_err(FDCAN_HandleTypeDef* hfdcan, uint16_t motor_id, uint16_t mode_id);
+void USER_CAN_SendCapData(FDCAN_HandleTypeDef* hfdcan,int16_t StdId,uint8_t cap_ctrl_mode,uint16_t power_buffer, uint16_t power_limit ,uint8_t targetI);
 
 #endif

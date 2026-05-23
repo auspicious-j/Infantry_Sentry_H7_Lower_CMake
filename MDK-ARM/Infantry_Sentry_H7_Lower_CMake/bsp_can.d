@@ -55,5 +55,5 @@ infantry_sentry_h7_lower_cmake/bsp_can.o: ..\BSP\src\bsp_can.c \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\event_groups.h \
   ..\Application\inc\Moto.h ..\UserMiddlewares\inc\USER_Moto.h \
-  ..\math\inc\PID.h ..\BSP\inc\super_cap.h \
+  ..\math\inc\PID.h ..\BSP\inc\super_cap.h ..\math\inc\Slope.h \
   ..\UserMiddlewares\inc\USER_Detcet.h

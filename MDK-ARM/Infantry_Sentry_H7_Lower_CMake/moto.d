@@ -55,7 +55,8 @@ infantry_sentry_h7_lower_cmake/moto.o: ..\Application\src\Moto.c \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\event_groups.h \
-  ..\math\inc\PID.h ..\BSP\inc\super_cap.h ..\Application\inc\RLS.h \
+  ..\math\inc\PID.h ..\BSP\inc\super_cap.h ..\math\inc\Slope.h \
+  ..\Application\inc\RLS.h \
   D:\Program_Programing\MDK\Packs\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
   D:\Program_Programing\MDK\Packs\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
   D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\string.h \
@@ -80,4 +81,6 @@ infantry_sentry_h7_lower_cmake/moto.o: ..\Application\src\Moto.c \
   D:\Program_Programing\MDK\Packs\ARM\CMSIS-DSP\1.16.2\Include\dsp\filtering_functions.h \
   D:\Program_Programing\MDK\Packs\ARM\CMSIS-DSP\1.16.2\Include\dsp\quaternion_math_functions.h \
   D:\Program_Programing\MDK\Packs\ARM\CMSIS-DSP\1.16.2\Include\dsp\window_functions.h \
-  ..\UserMiddlewares\inc\USER_B2B.h
+  ..\UserMiddlewares\inc\USER_B2B.h ..\Application\inc\PowerCtrl.h \
+  ..\BSP\inc\struct_typedef.h ..\Application\inc\JUDGE.h \
+  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h

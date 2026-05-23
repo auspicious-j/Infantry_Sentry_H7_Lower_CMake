@@ -5,11 +5,16 @@
 #include "RLS.h"
 #include "moto.h"
 #include "Judge.h"
+#include <stdint.h>
 
 uint16_t SET_WHEELSPEED_MAX = 8000;
 
 ChassisPower whell_power;
-
+PID buffer_pid;
+uint16_t chassis_power_buffer = 0;
+uint16_t set_buffer = 30;
+extern Move move;
+float modelPower;
 void PowerInit3508()
 {
 	whell_power.toque_coefficient =  2.4324e-6f;//(20/16384)*(0.3)*(187/3591)/9.55
@@ -27,6 +32,7 @@ void PowerInit3508()
 void PowerCtralInit()
 {
 	PowerInit3508();
+	PID_Init(&buffer_pid, 3, 0, 0, 0, 200);
 }
 
 //轮电机功率控制
@@ -46,12 +52,17 @@ void WhellPowerCtral()
 	
 	// 读取最大功率
 	whell_power.MaxPowerLimit = JUDGE_GetChassisPowerLimit();
-	// chassis_power_buffer = JUDGE_GetPowerBuffer();
+	chassis_power_buffer = JUDGE_GetPowerBuffer();
 	if (whell_power.MaxPowerLimit < 15 || whell_power.MaxPowerLimit > 200)
 	{
 		whell_power.MaxPowerLimit = whell_power.UserPowerLimit;
 	}
-	
+	if (whell_power.MaxPowerLimit < 15 || whell_power.MaxPowerLimit > 200)
+	{
+		whell_power.MaxPowerLimit = whell_power.UserPowerLimit;
+		set_buffer = 0;
+		chassis_power_buffer = 0;
+	}
 	//拟合曲线用
 	for (uint8_t i = 0;i<4;i++)
 	{
@@ -73,16 +84,43 @@ void WhellPowerCtral()
 																			whell_power.a * chassis.M3508[i].speedPID.output*chassis.M3508[i].speedPID.output + whell_power.constant;
 		whell_power.InitialTotalPower += whell_power.InitialGivePower[i];
 	}
+	// 缓冲能量pid
+	PID_SingleCalc(&buffer_pid, set_buffer, chassis_power_buffer);
 	//轮电机最大功率
-	whell_power.InputPower = whell_power.MaxPowerLimit;
-	LIMIT(whell_power.InputPower,5, whell_power.MaxPowerLimit+20);
-	float modelPower = fmax(whell_power.MaxPowerLimit,whell_power.InputPower);
+	whell_power.InputPower = whell_power.MaxPowerLimit-buffer_pid.output;;
+	LIMIT(whell_power.InputPower,5, whell_power.MaxPowerLimit+80);
+	if(cap.per_energy < 30 && chassis_power_buffer < 10)
+            move.fastMode = 0;
+    if (move.fastMode == 1 || (ABS(move.xSlope.value) / move.maxVx + ABS(move.ySlope.value) / move.maxVy > 0.05f) )
+    {
+        if (cap.per_energy > 20 && chassis_power_buffer > 10)
+            move.maxPower = whell_power.InputPower + 80;
+        else
+            move.maxPower = whell_power.InputPower;
+    }
+    else if (move.fastMode == 0)
+    {
+        move.maxPower = whell_power.InputPower;
+    }
+    else
+    {
+        move.maxPower = whell_power.InputPower;
+    }
+    if (move.maxPower <= 5)
+    {
+        for (uint8_t i = 0; i < 4; i++)
+        {
+            chassis.M3508[i].speedPID.output = 0;
+        }
+        return;
+    }
+	modelPower = fmax(whell_power.MaxPowerLimit,whell_power.InputPower);
 	float delta = TOQUE_CONST * whell_power.toque_coefficient * TOQUE_CONST * whell_power.toque_coefficient - 4 * whell_power.k2 * whell_power.constant + whell_power.k2 * modelPower - 4 * whell_power.a * whell_power.k2 * TOQUE_CONST;
 	if (delta < 0) delta = 0;
 	SET_WHEELSPEED_MAX = 1000.0f + ((sqrtf(delta) - whell_power.toque_coefficient * TOQUE_CONST) / (2.0f * whell_power.k2));
 
 	//判断是否是超出允许的功率上限
-	if(whell_power.InitialTotalPower > whell_power.InputPower)
+	if(whell_power.InitialTotalPower > move.maxPower)//move.maxPower)
 	{
 		//计算pid输出放缩系数
 		float a0 = 0;
@@ -94,7 +132,7 @@ void WhellPowerCtral()
 			b0 += whell_power.toque_coefficient * chassis.M3508[i].speed*chassis.M3508[i].speedPID.output;
 			c0 += whell_power.k2 * chassis.M3508[i].speed*chassis.M3508[i].speed+whell_power.constant;
 		}
-		c0 -= whell_power.InputPower;
+		c0 -= move.maxPower;
 		//判断是否有解
 		float delta = b0*b0-4*a0*c0;
 		if(delta < 0)

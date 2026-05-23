@@ -1,11 +1,13 @@
 #include "Moto.h"
 #include "USER_Moto.h"
 #include "bsp_can.h"
+#include "moto.h"
 #include "super_cap.h"
 #include "RLS.h"
 #include "arm_math.h"
 #include "USER_B2B.h"
 #include "PowerCtrl.h"
+#include "JUDGE.h"
 
 ChassisMotor_t chassis = {0}; //所有底盘电机结构体 包括四个轮电机
 
@@ -18,6 +20,7 @@ float measure_power = 0.0;
 
 float p_des = 0;
 float p_des_yaw = 0;
+Move move = {0};
 
 
 void Supercap_Update(SuperCap* this, uint8_t* rxdata)
@@ -58,6 +61,7 @@ void Task_CANMotors_Callback()
 		}
 		PowerCtrl();
 	    USER_CAN_SetMotorCurrent(&hfdcan1, 0x200, chassis.M3508[0].speedPID.output,chassis.M3508[1].speedPID.output,chassis.M3508[2].speedPID.output,chassis.M3508[3].speedPID.output);
+		USER_CAN_SendCapData(&hfdcan2,0x1aa,1,(int16_t)JUDGE_GetPowerBuffer(),(int16_t)JUDGE_GetChassisPowerLimit(),cap.targetI);
 } 
 
 

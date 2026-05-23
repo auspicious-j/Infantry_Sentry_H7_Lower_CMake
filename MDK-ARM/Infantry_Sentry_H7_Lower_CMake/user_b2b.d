@@ -58,7 +58,8 @@ infantry_sentry_h7_lower_cmake/user_b2b.o: \
   ..\Application\inc\UserFreertos.h ..\Application\inc\Moto.h \
   ..\UserMiddlewares\inc\USER_Moto.h ..\BSP\inc\bsp_can.h \
   ..\Core\Inc\fdcan.h ..\math\inc\PID.h ..\BSP\inc\super_cap.h \
-  ..\Application\inc\judge.h \
+  ..\math\inc\Slope.h ..\Application\inc\judge.h \
   D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   ..\UserMiddlewares\inc\USER_Detcet.h ..\IMU\inc\imu_temp_ctrl.h \
-  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\string.h
+  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\Application\inc\PowerCtrl.h ..\BSP\inc\struct_typedef.h

@@ -134,6 +134,9 @@ void CAN2_Rx0Callback(FDCAN_RxHeaderTypeDef *rx_header,uint8_t *rxdata)
 {
 	switch(rx_header->Identifier)
 	{
+        case 0x300:
+            Supercap_Update(&cap,rxdata);
+			break;
 		default:
 		break;
 	}

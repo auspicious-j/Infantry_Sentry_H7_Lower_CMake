@@ -31,6 +31,7 @@ typedef struct
 }ChassisPower;
 
 extern ChassisPower whell_power;
+extern uint16_t SET_WHEELSPEED_MAX;
 
 void PowerCtrl(void);
 void PowerCtralInit(void);

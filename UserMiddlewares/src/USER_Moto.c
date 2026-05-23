@@ -155,3 +155,17 @@ void USER_CAN_SetMotorCurrent(FDCAN_HandleTypeDef* hfdcan,int16_t StdId,int16_t 
 	USER_CAN_Send(hfdcan,StdId, tx_data);
 
 }
+
+void USER_CAN_SendCapData(FDCAN_HandleTypeDef* hfdcan,int16_t StdId,uint8_t cap_ctrl_mode,uint16_t power_buffer, uint16_t power_limit ,uint8_t targetI)
+{
+    uint8_t tx_data[8] ={0,0,0,0,0,0,0,0};
+    tx_data[0] = (int16_t)power_buffer;
+    tx_data[1] = (int16_t)power_buffer>>8;
+    tx_data[2] = (int16_t)(power_limit);
+    tx_data[3] = (int16_t)(power_limit)>>8;
+    tx_data[4] = cap_ctrl_mode ;
+    tx_data[5] = targetI;
+    
+    USER_CAN_Send(hfdcan,StdId, tx_data);
+
+}

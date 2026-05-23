@@ -55,4 +55,9 @@ infantry_sentry_h7_lower_cmake/super_cap.o: ..\BSP\src\super_cap.c \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\event_groups.h \
-  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdio.h
+  ..\Application\inc\judge.h \
+  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  ..\Application\inc\Moto.h ..\UserMiddlewares\inc\USER_Moto.h \
+  ..\BSP\inc\bsp_can.h ..\Core\Inc\fdcan.h ..\math\inc\PID.h \
+  ..\math\inc\Slope.h

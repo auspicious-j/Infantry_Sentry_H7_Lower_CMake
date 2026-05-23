@@ -25,6 +25,7 @@ void OS_ErrorCallback(void const * argument)
 	for(;;)
 	{
 		USER_CAN_SetMotorCurrent(&hfdcan1,0x200,0,0,0,0);//关断电机	
+    USER_CAN_SendCapData(&hfdcan2,0x1aa,0,0,0,0);
 		HAL_Delay(1);
 		FEEDBACK = 1;
 		if(STOPFLAG != 1){
