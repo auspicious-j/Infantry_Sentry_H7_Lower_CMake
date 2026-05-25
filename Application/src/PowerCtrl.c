@@ -133,6 +133,7 @@ void WhellPowerCtral()
 			c0 += whell_power.k2 * chassis.M3508[i].speed*chassis.M3508[i].speed+whell_power.constant;
 		}
 		c0 -= move.maxPower;
+ 
 		//判断是否有解
 		float delta = b0*b0-4*a0*c0;
 		if(delta < 0)

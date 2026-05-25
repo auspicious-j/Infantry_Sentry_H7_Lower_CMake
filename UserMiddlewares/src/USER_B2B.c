@@ -47,7 +47,7 @@ void B2B_ParseUsart() // 先发低字节
 		move.maxVy = (int16_t)((uint16_t)usart2RxBuf[11] |((uint16_t)usart2RxBuf[12] << 8)) / 1000.0f;
 		move.xSlope.value = (int16_t)((uint16_t)usart2RxBuf[13] |((uint16_t)usart2RxBuf[14] << 8)) / 1000.0f;
 		move.ySlope.value = (int16_t)((uint16_t)usart2RxBuf[15] |((uint16_t)usart2RxBuf[16] << 8)) / 1000.0f;
-		move.fastMode = usart2RxBuf[18]; //快速模式 0-普通模式 1-快速模式
+		move.fastMode = usart2RxBuf[17]; //快速模式 0-普通模式 1-快速模式
 		STOPFLAG = usart2RxBuf[62];
 
 
@@ -70,7 +70,7 @@ void B2B_ParseUsart() // 先发低字节
 			txbuffer[12] = p[1];
 			txbuffer[13] = p[2];
 			txbuffer[14] = p[3];
-		}//11-14 舵电机当前角度（单圈）单位为°
+		}//11-14 轮电机功率上限
 		memcpy(&txbuffer[15], &USER_JudgeData, sizeof(JudgeData_t)); //15-43 裁判系统数据
 		
 		txbuffer[62] = FEEDBACK;
@@ -130,7 +130,7 @@ void OS_Board2BoardCallback(void const *argument)
 			receive_times = 0;
 		}
 		Task_B2B_Callback();
-		osDelay(2);
+		osDelay(1);
 	}
 }
 

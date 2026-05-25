@@ -148,7 +148,7 @@ void MX_FREERTOS_Init(void) {
   RS485_TaskHandle = osThreadCreate(osThread(RS485_Task), NULL);
 
   /* definition and creation of SuperCap */
-  osThreadDef(SuperCap, OS_SuperCapCallback, osPriorityNormal, 0, 128);
+  osThreadDef(SuperCap, OS_SuperCapCallback, osPriorityNormal, 0, 256);
   SuperCapHandle = osThreadCreate(osThread(SuperCap), NULL);
 
   /* definition and creation of JudgeTask */
