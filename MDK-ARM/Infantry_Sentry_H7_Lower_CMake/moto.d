@@ -81,6 +81,7 @@ infantry_sentry_h7_lower_cmake/moto.o: ..\Application\src\Moto.c \
   D:\Program_Programing\MDK\Packs\ARM\CMSIS-DSP\1.16.2\Include\dsp\filtering_functions.h \
   D:\Program_Programing\MDK\Packs\ARM\CMSIS-DSP\1.16.2\Include\dsp\quaternion_math_functions.h \
   D:\Program_Programing\MDK\Packs\ARM\CMSIS-DSP\1.16.2\Include\dsp\window_functions.h \
-  ..\UserMiddlewares\inc\USER_B2B.h ..\Application\inc\PowerCtrl.h \
-  ..\BSP\inc\struct_typedef.h ..\Application\inc\JUDGE.h \
-  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h
+  ..\UserMiddlewares\inc\USER_B2B.h ..\Core\Inc\usart.h \
+  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  ..\Application\inc\PowerCtrl.h ..\BSP\inc\struct_typedef.h \
+  ..\Application\inc\JUDGE.h

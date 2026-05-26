@@ -4,10 +4,9 @@
 #include <freertos.h>
 #include <semphr.h>
 #include "userfreertos.h"
-#include "Board2Board.h"
+#include "USER_B2B.h"
 #include "judge.h"
 #include "super_cap.h"
-#include "Graphics.h"
 #include "Moto.h"
 
 extern int16_t fricMotor_left_speed;
@@ -15,17 +14,11 @@ extern uint8_t chassis_rotate_mode;
 extern uint8_t visionFindcheck;
 extern uint8_t vision_mode; // 0为空闲，1为自瞄，2为小符，3为大符
 extern int16_t chassis_rotate_angle;
-extern int16_t visionX;
-extern int16_t visionY;
 extern float v_dis;
 extern uint16_t shootNum ;
-extern uint8_t cap_fastMode;
-extern uint8_t diagonal_enable;
 extern uint8_t trigger_block;
 extern int	shootnum;
 extern uint8_t trigger_reverse;
-extern uint8_t vision_exposure;
-extern uint8_t vision_rune_dirt; ////0-anti-clockwise 1-clockwise
 
 uint8_t UI_RES = 0;
 int16_t last_chassis_mode;
@@ -125,53 +118,14 @@ void OS_UICallBack(void const *argument)
 //	Uiid CAPBurst;
 //	CAPBurst = JLUI_CreateCircle(5, UiMagenta, 0, 960, 538, 240);
 
-//	//近战
-//	JLUI_CreateLine(4,UiGreen,1,935,397,965,397);
-//	JLUI_CreateLine(4,UiGreen,1,949,382,949,413);
-//	//7.8m
-//	JLUI_CreateLine(4,UiCyan,1,947,459,978,459);
-//	JLUI_CreateLine(4,UiCyan,1,962,445,962,474);
-	// 准心 5m
-	Uiid center5 ;
-	JLUI_CreateLine(4,UiCyan,1,1191,253,1252,253);
-	JLUI_CreateLine(4,UiCyan,1,1221,289,1221,230);
-	JLUI_CreateString(4, UiGreen, 0, 1262, 253, 20, "5m");
-	//准心 8m
-	Uiid center8 ;
-	JLUI_CreateLine(4,UiCyan,1,1269,678,1286,678);
-	JLUI_CreateLine(4,UiCyan,1,1277,667,1277,683);
-	JLUI_CreateString(4, UiGreen, 0, 1296, 678, 20, "8m");
-	//准心 13m
-	Uiid center13 ;
-	JLUI_CreateLine(4,UiCyan,1,1269,624,1290,624);
-	JLUI_CreateLine(4,UiCyan,1,1279,617,1277,627);
-	JLUI_CreateString(4, UiGreen, 0, 1300, 624, 20, "13m");
-	// 车宽线
-	Uiid CarBody;
-	JLUI_CreateLine(4,UiCyan,1,551,0,832,439);
-	JLUI_CreateLine(4,UiCyan,1,1283,0,1000,439);
-	//	过热提醒
-//	Uiid Heat;
-//	//曝光时间
-//	Uiid VisionExpo;
-//	
-//	JLUI_CreateString(4, UiWhite, 0, 1500, 400, 20, "VisExpo:");
-//	VisionExpo = JLUI_CreateInt(4, UiWhite, 0, 1700, 400, 20, vision_exposure*100);
-
-	Uiid Vis_Runedirt;
-	
-	JLUI_CreateArc(4, UiPink, 0, 1750, 510, 45, 45, 0, 270);
-	Vis_Runedirt = JLUI_CreateArc(4, UiPink, 0, 1807, 519, 65, 65, 300, 330); //anti
-//	Vis_Runedirt = JLUI_CreateArc(4, UiPink, 0, 1807, 493, 65, 65, 300, 330); //
-
-// 视觉识别框
-//	Uiid VisionRect;
-//	Uiid VisionPoint;
 	Uiid shoot_cnt;
-	Uiid Diagonal;
+	Uiid Fold;
+  //车宽线
+  Uiid CarBody;
+  JLUI_CreateLine(4,UiCyan,1,470,0,790,400);//1920*1080 960 540
+  JLUI_CreateLine(4,UiCyan,1,1475,0,1050,400);
+  
 	
-	Diagonal = JLUI_CreateInt(4, UiGreen, 0, 300, 700, 20, diagonal_enable);
-	JLUI_CreateString(4, UiGreen, 0, 100, 700, 20, "Diagonal:");
 	// 小陀螺提示
 	HP_Dec = JLUI_CreateString(4, UiMagenta, 0, 750, 700, 40, "Please Spin");
 	// 视觉识别提示
@@ -179,21 +133,19 @@ void OS_UICallBack(void const *argument)
 	// 车头方位提示
 	headstock = JLUI_CreateArc(5, UiMagenta, 0, 960, 538, 280, 280, 0, 0);
 	// 三种视觉模式
-	JLUI_CreateString(4, UiBlack, 0, 100, 600, 20, "VisionMode:");
-	VisionMode = JLUI_CreateInt(5, UiBlack, 0, 310, 600, 20, vision_mode);
+	JLUI_CreateString(4, UiMagenta, 0, 100, 600, 20, "VisionMode:");
+	VisionMode = JLUI_CreateInt(5, UiMagenta, 0, 310, 600, 20, vision_mode);
 	// 摩擦轮转速
 	JLUI_CreateString(4, UiOrange, 0, 100, 550, 20, "FricSpeed:");
 	FricSpeed = JLUI_CreateInt(5, UiOrange, 0, 300, 550, 20, fricMotor_left_speed);
 	//射击计数
 	JLUI_CreateString(4, UiYellow, 0, 100, 650, 20, "ShootNum:");
 	shoot_cnt = JLUI_CreateInt(5, UiYellow, 0, 300, 650, 20, shootNum);
+	//折叠状态
+	Fold = JLUI_CreateLine(8,UiGreen,0,250,750,1670,750);
 	osDelay(10);
 	for (;;)
 	{
-//		if (UI_RES == 1)
-//		{
-//			
-//		}
 		osDelay(UI_time);
 		if (UI_time > 35)
 				UI_time -= 2;
@@ -216,57 +168,31 @@ void OS_UICallBack(void const *argument)
 				JLUI_SetVisible(HP_Dec, 0);
 		if(chassis_rotate_mode == ChassisMode_Follow)
 				JLUI_SetVisible(HP_Dec, 1); 
-		
-//		if (cnt % 10 == 0)
-//		{
-//			Current_HP = JUDGE_GetHP();
-//			Last_HP = Current_HP;
-//			if (Last_HP - Current_HP >= 10)
-//			{
-//				if (chassis_rotate_mode == ChassisMode_Follow)
-//					JLUI_SetVisible(HP_Dec, 1);
-//			}
-//			else if (Last_HP <= Current_HP)
-//			{
-//				JLUI_SetVisible(HP_Dec, 0);
-//			}
-//		}	未测试
-	
-		
 		// 刷新视觉识别状态
 		if (visionFindcheck == 1)
 		{
 			JLUI_SetVisible(VisionFound, 1);
-			//	JLUI_MoveTo(VisionRect,visionX,visionY);
-			//	JLUI_MoveTo(VisionPoint,visionX,visionY);
-			//	JLUI_SetVisible(VisionRect, 1);
-			//	JLUI_SetVisible(VisionPoint, 1);
 		}
 		else
 		{
 			JLUI_SetVisible(VisionFound, 0);
-			//	JLUI_SetVisible(VisionRect, 0);
-			//	JLUI_SetVisible(VisionPoint, 0);
 		}
 		//更新视觉模式
 		JLUI_SetInt(VisionMode, vision_mode);
-		//视觉顺逆时针
-		if(vision_rune_dirt == 1)
-		{
-			JLUI_MoveTo(Vis_Runedirt,1736, 460);
-		}
-		else
-		{
-			JLUI_MoveTo(Vis_Runedirt,1807, 519);
-		}
-		//视觉曝光
-//		JLUI_SetInt(VisionExpo,vision_exposure*100);
-		
 		// 更新摩擦轮转速
 		JLUI_SetInt(FricSpeed, fricMotor_left_speed);
 		//shootnumber
-		
 		JLUI_SetInt(shoot_cnt, shootNum);
+		//更新是否折叠
+    if(gimbal_fold == 1)
+    {
+      JLUI_SetVisible(Fold, 1);
+    }
+     else 
+     {
+       JLUI_SetVisible(Fold, 0);
+     }
+//		JLUI_SetInt(Fold,gimbal_fold);
 		if(trigger_block == 1)
 		{
 			JLUI_SetColor(shoot_cnt,UiPink);
@@ -277,12 +203,6 @@ void OS_UICallBack(void const *argument)
 		}
 		else
 			JLUI_SetColor(shoot_cnt,UiYellow);
-
-		//	过热
-
-
-		//  对角舵显示
-		JLUI_SetInt( Diagonal,diagonal_enable);
 
 		// 刷新超电能量条
 		JLUI_MoveP2To(Super_Line, 800+cap.per_energy*4, 110);
@@ -295,10 +215,10 @@ void OS_UICallBack(void const *argument)
 			JLUI_SetColor(Super_Line,UiYellow);
 		}
 		// 更新超电开启状态
-		if(cap_fastMode == 1){
+		if(move.fastMode == 1){
 			JLUI_SetVisible(SuperCap, 1);
 		}
-		if(cap_fastMode != 1){
+		if(move.fastMode != 1){
 			JLUI_SetVisible(SuperCap, 0);
 		}
 	}

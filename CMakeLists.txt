@@ -12,6 +12,9 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
 
 # Define the build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -30,6 +33,7 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Enable CMake support for ASM and C languages
 enable_language(C ASM)
+enable_language(C CXX ASM)
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
@@ -44,6 +48,8 @@ file(GLOB_RECURSE USER_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/math/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/UserMiddlewares/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/Application/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/UI/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/UI/*.cpp"
 )
 
 # Link directories setup
@@ -77,6 +83,9 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 
     # Application
     ${CMAKE_CURRENT_SOURCE_DIR}/Application/inc
+
+    # UI
+    ${CMAKE_CURRENT_SOURCE_DIR}/UI/inc
 
     # CMSIS-DSP include paths   
     ${CMAKE_SOURCE_DIR}/Middlewares/ST/ARM/dsp/Include

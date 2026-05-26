@@ -9,11 +9,17 @@
 #include <string.h>
 #include "PowerCtrl.h"
 
-
+#define B2B_FRAME_LEN 64U
 extern DMA_HandleTypeDef hdma_usart2_rx;
 uint8_t rs485_isvalid = 0;
-
-#define B2B_FRAME_LEN 64U
+uint8_t vision_mode;  //自瞄模式
+uint8_t visionFindcheck;  //自瞄是否锁定
+uint8_t chassis_rotate_mode;  //底盘模式
+int16_t fricMotor_left_speed;  //摩擦轮转速
+uint8_t trigger_block;   //拨盘是否锁定
+uint8_t trigger_reverse; //拨盘工作状态
+int16_t chassis_rotate_angle; //云台与底盘相对角度
+uint8_t gimbal_fold;//折叠标志位 0未折叠 1折叠
 
 
 /* 需要用到的接收变量*/
@@ -48,8 +54,18 @@ void B2B_ParseUsart() // 先发低字节
 		move.xSlope.value = (int16_t)((uint16_t)usart2RxBuf[13] |((uint16_t)usart2RxBuf[14] << 8)) / 1000.0f;
 		move.ySlope.value = (int16_t)((uint16_t)usart2RxBuf[15] |((uint16_t)usart2RxBuf[16] << 8)) / 1000.0f;
 		move.fastMode = usart2RxBuf[17]; //快速模式 0-普通模式 1-快速模式
+		 //自瞄模式
+		vision_mode = usart2RxBuf[18]; 
+		visionFindcheck = usart2RxBuf[19];//自瞄是否锁定  
+		chassis_rotate_mode = usart2RxBuf[20];  //底盘模式
+		fricMotor_left_speed = (int16_t)((uint16_t)usart2RxBuf[21] |((uint16_t)usart2RxBuf[22] << 8)) ;  //摩擦轮转速
+		trigger_reverse = usart2RxBuf[23];   //拨盘工作状态
+		trigger_block = usart2RxBuf[24]; //拨盘是否锁定
+		chassis_rotate_angle = (int16_t)((uint16_t)usart2RxBuf[25] |((uint16_t)usart2RxBuf[26] << 8)); //云台与底盘相对角度
+		gimbal_fold =   usart2RxBuf[27];
+		
 		STOPFLAG = usart2RxBuf[62];
-
+		
 
 		
 		/* 发送    */

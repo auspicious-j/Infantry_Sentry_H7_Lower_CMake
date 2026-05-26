@@ -57,4 +57,5 @@ infantry_sentry_h7_lower_cmake/userfreertos.o: \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
   ..\BSP\inc\bsp_can.h ..\Core\Inc\fdcan.h ..\math\inc\PID.h \
   ..\UserMiddlewares\inc\USER_B2B.h ..\Core\Inc\usart.h \
+  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   ..\BSP\inc\bsp_ws2812.h ..\Core\Inc\tim.h

@@ -59,4 +59,4 @@ infantry_sentry_h7_lower_cmake/user_detect.o: \
   ..\Application\inc\UserFreertos.h ..\Application\inc\Beep.h \
   ..\Application\inc\judge.h \
   D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  ..\UserMiddlewares\inc\USER_B2B.h
+  ..\UserMiddlewares\inc\USER_B2B.h ..\Core\Inc\usart.h

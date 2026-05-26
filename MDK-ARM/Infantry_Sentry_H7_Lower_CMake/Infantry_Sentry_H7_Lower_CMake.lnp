@@ -70,6 +70,8 @@
 "infantry_sentry_h7_lower_cmake\user_b2b.o"
 "infantry_sentry_h7_lower_cmake\user_detect.o"
 "infantry_sentry_h7_lower_cmake\user_moto.o"
+"infantry_sentry_h7_lower_cmake\jlui.o"
+"infantry_sentry_h7_lower_cmake\jlui_port_freertos.o"
 "infantry_sentry_h7_lower_cmake\basicmathfunctions.o"
 "infantry_sentry_h7_lower_cmake\basicmathfunctionsf16.o"
 "infantry_sentry_h7_lower_cmake\bayesfunctions.o"

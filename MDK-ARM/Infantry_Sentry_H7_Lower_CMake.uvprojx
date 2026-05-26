@@ -315,7 +315,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -331,7 +331,7 @@
             <uGnu>1</uGnu>
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
-            <v6LangP>5</v6LangP>
+            <v6LangP>3</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -341,7 +341,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;..\Middlewares\Third_Party\FreeRTOS\Source\portable\RVDS\ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Application/inc;../Application/src;../BSP/inc;../BSP/src;../IMU/Algorithm/inc;../IMU/Algorithm/src;../IMU/BMI088;../IMU/BMI088/inc;../IMU/Mahony/inc;../IMU/Mahony/src;../IMU/inc;../IMU/src;../math/inc;../math/src;../UserMiddlewares/inc;../UserMiddlewares/src</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;..\Middlewares\Third_Party\FreeRTOS\Source\portable\RVDS\ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Application/inc;../Application/src;../BSP/inc;../BSP/src;../IMU/Algorithm/inc;../IMU/Algorithm/src;../IMU/BMI088;../IMU/BMI088/inc;../IMU/Mahony/inc;../IMU/Mahony/src;../IMU/inc;../IMU/src;../math/inc;../math/src;../UserMiddlewares/inc;../UserMiddlewares/src;..\UI\inc;..\UI\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -784,6 +784,21 @@
               <FileName>USER_Moto.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\UserMiddlewares\src\USER_Moto.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>UI</GroupName>
+          <Files>
+            <File>
+              <FileName>jlui.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\UI\src\jlui.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>jlui_port_freertos.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UI\src\jlui_port_freertos.c</FilePath>
             </File>
           </Files>
         </Group>

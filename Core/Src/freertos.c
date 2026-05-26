@@ -57,6 +57,7 @@ osThreadId RS485_TaskHandle;
 osThreadId SuperCapHandle;
 osThreadId JudgeTaskHandle;
 osThreadId DetectTaskHandle;
+osThreadId UI_TaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -73,6 +74,7 @@ void OS_Board2BoardCallback(void const * argument);
 void OS_SuperCapCallback(void const * argument);
 void OS_JudgeCallback(void const * argument);
 void OS_DetectCallback(void const * argument);
+void OS_UICallBack(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -158,6 +160,10 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of DetectTask */
   osThreadDef(DetectTask, OS_DetectCallback, osPriorityNormal, 0, 256);
   DetectTaskHandle = osThreadCreate(osThread(DetectTask), NULL);
+
+  /* definition and creation of UI_Task */
+  osThreadDef(UI_Task, OS_UICallBack, osPriorityNormal, 0, 2048);
+  UI_TaskHandle = osThreadCreate(osThread(UI_Task), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -343,6 +349,24 @@ __weak void OS_DetectCallback(void const * argument)
     osDelay(1);
   }
   /* USER CODE END OS_DetectCallback */
+}
+
+/* USER CODE BEGIN Header_OS_UICallBack */
+/**
+* @brief Function implementing the UI_Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_OS_UICallBack */
+__weak void OS_UICallBack(void const * argument)
+{
+  /* USER CODE BEGIN OS_UICallBack */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END OS_UICallBack */
 }
 
 /* Private application code --------------------------------------------------*/

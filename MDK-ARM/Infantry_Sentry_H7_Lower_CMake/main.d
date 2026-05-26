@@ -56,6 +56,7 @@ infantry_sentry_h7_lower_cmake/main.o: ..\Core\Src\main.c \
   ..\Core\Inc\dma.h ..\Core\Inc\fdcan.h ..\Core\Inc\spi.h \
   ..\Core\Inc\tim.h ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
   ..\BSP\inc\bsp_can.h ..\Application\inc\beep.h \
-  ..\UserMiddlewares\inc\USER_B2B.h ..\UserMiddlewares\inc\USER_Detcet.h \
-  ..\BSP\inc\bsp_dwt.h ..\Application\inc\Judge.h \
-  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h
+  ..\UserMiddlewares\inc\USER_B2B.h \
+  D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  ..\UserMiddlewares\inc\USER_Detcet.h ..\BSP\inc\bsp_dwt.h \
+  ..\Application\inc\Judge.h

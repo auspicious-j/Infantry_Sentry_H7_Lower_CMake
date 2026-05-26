@@ -41,4 +41,4 @@ infantry_sentry_h7_lower_cmake/stm32h7xx_it.o: ..\Core\Src\stm32h7xx_it.c \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
   ..\Core\Inc\stm32h7xx_it.h ..\Application\inc\Judge.h \
   D:\Program_Programing\MDK\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  ..\UserMiddlewares\inc\USER_B2B.h
+  ..\UserMiddlewares\inc\USER_B2B.h ..\Core\Inc\usart.h
